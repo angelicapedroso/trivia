@@ -41,7 +41,7 @@ class Login extends React.Component {
               data-testid="input-gravatar-email"
             />
           </label>
-          <button type="button" disabled={ isDisabled }>
+          <button data-testid="btn-play" type="button" disabled={ isDisabled }>
             Play
           </button>
         </header>
