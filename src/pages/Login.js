@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import logo from '../trivia.png';
 import '../App.css';
 
@@ -9,6 +10,7 @@ class Login extends React.Component {
       isDisabled: true,
       user: '',
       email: '',
+      redirect: false,
     };
   }
 
@@ -19,8 +21,13 @@ class Login extends React.Component {
     if (user.length > 0 && email.length > 0) this.setState({ isDisabled: false });
   }
 
+  handleClick = (event) => {
+    event.preventDefault();
+    this.setState({ redirect: true });
+  }
+
   render() {
-    const { isDisabled, user, email } = this.state;
+    const { isDisabled, user, email, redirect } = this.state;
     return (
       <div className="App">
         <header className="App-header">
@@ -41,9 +48,15 @@ class Login extends React.Component {
               data-testid="input-gravatar-email"
             />
           </label>
-          <button data-testid="btn-play" type="button" disabled={ isDisabled }>
+          <button
+            data-testid="btn-play"
+            type="button"
+            disabled={ isDisabled }
+            onClick={ this.handleClick }
+          >
             Play
           </button>
+          { redirect && <Redirect to="/game" /> }
         </header>
       </div>
     );
