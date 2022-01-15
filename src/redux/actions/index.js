@@ -13,5 +13,7 @@ export const getTokenPlayer = () => async (dispatch) => {
   const { token } = data;
   dispatch(tokenPlayerAPI(token));
   localStorage.setItem('token', token);
-  console.log(token);
 };
+
+export const ADD_USER = 'ADD_USER';
+export const addUser = (user) => ({ type: ADD_USER, user });

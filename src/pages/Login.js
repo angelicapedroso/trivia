@@ -1,46 +1,47 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { addUser, getTokenPlayer } from '../redux/actions/index';
 import logo from '../trivia.png';
 import '../App.css';
-import { getTokenPlayer } from '../redux/actions';
 
 class Login extends React.Component {
   constructor() {
     super();
     this.state = {
       isDisabled: true,
-      user: '',
+      userName: '',
       email: '',
-      redirect: false,
     };
   }
 
   handleChange = ({ target }) => {
     const { name, value } = target;
-    const { user, email } = this.state;
+    const { userName, email } = this.state;
     this.setState({ [name]: value });
-    if (user.length > 0 && email.length > 0) this.setState({ isDisabled: false });
+    if (userName.length > 0 && email.length > 0) this.setState({ isDisabled: false });
   }
 
   handleClick = (event) => {
     event.preventDefault();
-    this.setState({ redirect: true });
-    const { setToken } = this.props;
+    const { userName, email } = this.state;
+    const { setToken, user, history } = this.props;
     setToken();
+    user({ userName, email });
+    history.push('/game');
   }
 
   render() {
-    const { isDisabled, user, email, redirect } = this.state;
+    const { isDisabled, userName, email } = this.state;
     return (
       <div className="App">
         <header className="App-header">
           <img src={ logo } className="App-logo" alt="logo" />
           <label htmlFor="input-player-name">
             <input
-              name="user"
-              value={ user }
+              name="userName"
+              value={ userName }
               onChange={ this.handleChange }
               data-testid="input-player-name"
             />
@@ -61,7 +62,11 @@ class Login extends React.Component {
           >
             Play
           </button>
-          { redirect && <Redirect to="/game" /> }
+          <Link to="/settings">
+            <button data-testid="btn-settings" type="button">
+              Settings
+            </button>
+          </Link>
         </header>
       </div>
     );
@@ -70,10 +75,15 @@ class Login extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   setToken: () => dispatch(getTokenPlayer()),
+  user: (state) => dispatch(addUser(state)),
 });
 
 Login.propTypes = {
   setToken: PropTypes.func.isRequired,
+  user: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Login);
