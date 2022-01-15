@@ -1,7 +1,9 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import logo from '../trivia.png';
 import '../App.css';
+import { getTokenPlayer } from '../redux/actions';
 
 class Login extends React.Component {
   constructor() {
@@ -11,7 +13,13 @@ class Login extends React.Component {
       user: '',
       email: '',
       redirect: false,
+      token: '',
     };
+  }
+
+  componentDidMount() {
+    const { setToken } = this.props;
+    setToken();
   }
 
   handleChange = ({ target }) => {
@@ -22,8 +30,11 @@ class Login extends React.Component {
   }
 
   handleClick = (event) => {
+    const { token } = this.state;
+    const { setToken } = this.props;
     event.preventDefault();
     this.setState({ redirect: true });
+    console.log(setToken(token));
   }
 
   render() {
@@ -63,4 +74,8 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  setToken: (state) => dispatch(getTokenPlayer(state)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);

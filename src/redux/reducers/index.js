@@ -1,11 +1,8 @@
-const INITIAL_STATE = {
-};
+import { combineReducers } from 'redux';
+import tokenPlayer from './tokenPlayer';
 
-const reducer = (state = INITIAL_STATE, action) => {
-  switch (action.type) {
-  default:
-    return state;
-  }
-};
+const reducer = combineReducers({
+  tokenPlayer,
+});
 
 export default reducer;
