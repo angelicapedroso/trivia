@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import logo from '../trivia.png';
 import '../App.css';
 import { getTokenPlayer } from '../redux/actions';
@@ -70,5 +71,9 @@ class Login extends React.Component {
 const mapDispatchToProps = (dispatch) => ({
   setToken: () => dispatch(getTokenPlayer()),
 });
+
+Login.propTypes = {
+  setToken: PropTypes.func.isRequired,
+};
 
 export default connect(null, mapDispatchToProps)(Login);
