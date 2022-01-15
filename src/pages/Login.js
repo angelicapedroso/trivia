@@ -13,13 +13,7 @@ class Login extends React.Component {
       user: '',
       email: '',
       redirect: false,
-      token: '',
     };
-  }
-
-  componentDidMount() {
-    const { setToken } = this.props;
-    setToken();
   }
 
   handleChange = ({ target }) => {
@@ -30,11 +24,10 @@ class Login extends React.Component {
   }
 
   handleClick = (event) => {
-    const { token } = this.state;
-    const { setToken } = this.props;
     event.preventDefault();
     this.setState({ redirect: true });
-    console.log(setToken(token));
+    const { setToken } = this.props;
+    setToken();
   }
 
   render() {
@@ -75,7 +68,7 @@ class Login extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  setToken: (state) => dispatch(getTokenPlayer(state)),
+  setToken: () => dispatch(getTokenPlayer()),
 });
 
 export default connect(null, mapDispatchToProps)(Login);

@@ -10,6 +10,8 @@ export const tokenPlayerAPI = (token) => ({
 export const getTokenPlayer = () => async (dispatch) => {
   const response = await fetchTokenAPI();
   const data = await response;
-  dispatch(tokenPlayerAPI(data.token));
-  // console.log(data.token);
+  const { token } = data;
+  dispatch(tokenPlayerAPI(token));
+  localStorage.setItem('token', token);
+  console.log(token);
 };
