@@ -1,10 +1,10 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { addUser } from '../redux/actions/index';
 import logo from '../trivia.png';
 import '../App.css';
-import { Link } from 'react-router-dom';
 
 class Login extends React.Component {
   constructor() {
