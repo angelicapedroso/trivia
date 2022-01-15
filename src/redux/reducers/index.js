@@ -1,3 +1,10 @@
+import { combineReducers } from 'redux';
+import tokenPlayer from './tokenPlayer';
+
+const reducer = combineReducers({
+  tokenPlayer,
+});
+
 import { ADD_USER } from '../actions/index';
 
 const INITIAL_STATE = {

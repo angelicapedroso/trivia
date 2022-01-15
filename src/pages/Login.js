@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { addUser } from '../redux/actions/index';
+import { addUser, getTokenPlayer } from '../redux/actions/index';
 import logo from '../trivia.png';
 import '../App.css';
 
@@ -16,19 +16,20 @@ class Login extends React.Component {
     };
   }
 
-  onCLickButton = () => {
-    // const { email, userName } = this.state;
-    const { user, history } = this.props;
-    const { userName, email } = this.state;
-    user({ userName, email });
-    history.push('/game');
-  }
-
   handleChange = ({ target }) => {
     const { name, value } = target;
     const { userName, email } = this.state;
     this.setState({ [name]: value });
     if (userName.length > 0 && email.length > 0) this.setState({ isDisabled: false });
+  }
+
+  handleClick = (event) => {
+    event.preventDefault();
+    const { userName, email } = this.state;
+    const { setToken, user, history } = this.props;
+    setToken();
+    user({ userName, email });
+    history.push('/game');
   }
 
   render() {
@@ -57,7 +58,7 @@ class Login extends React.Component {
             data-testid="btn-play"
             type="button"
             disabled={ isDisabled }
-            onClick={ this.onCLickButton }
+            onClick={ this.handleClick }
           >
             Play
           </button>
@@ -72,15 +73,17 @@ class Login extends React.Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  setToken: () => dispatch(getTokenPlayer()),
+  user: (state) => dispatch(addUser(state)),
+});
+
 Login.propTypes = {
+  setToken: PropTypes.func.isRequired,
   user: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
 };
-
-const mapDispatchToProps = (dispatch) => ({
-  user: (state) => dispatch(addUser(state)),
-});
 
 export default connect(null, mapDispatchToProps)(Login);
