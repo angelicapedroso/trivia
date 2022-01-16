@@ -2,7 +2,7 @@ import { TOKEN_PLAYER_API } from '../actions';
 
 const INITIAL_STATE = '';
 
-const tokenPlayer = (state = INITIAL_STATE, action) => {
+const token = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case TOKEN_PLAYER_API:
     return action.payload;
@@ -11,4 +11,4 @@ const tokenPlayer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default tokenPlayer;
+export default token;
