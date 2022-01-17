@@ -19,12 +19,15 @@ class Login extends React.Component {
   handleChange = ({ target }) => {
     const { name, value } = target;
     const { userName, email } = this.state;
+    if (userName.length > 0 && email.length > 0) {
+      this.setState({ isDisabled: false });
+    } else {
+      this.setState({ isDisabled: true });
+    }
     this.setState({ [name]: value });
-    if (userName.length > 0 && email.length > 0) this.setState({ isDisabled: false });
   }
 
-  handleClick = (event) => {
-    event.preventDefault();
+  handleClick = () => {
     const { userName, email } = this.state;
     const { setToken, user, history } = this.props;
     setToken();
@@ -41,6 +44,7 @@ class Login extends React.Component {
           <label htmlFor="input-player-name">
             <input
               name="userName"
+              placeholder="Nome de Usuario"
               value={ userName }
               onChange={ this.handleChange }
               data-testid="input-player-name"
@@ -50,6 +54,7 @@ class Login extends React.Component {
             <input
               name="email"
               value={ email }
+              placeholder="E-mail do Gravatar"
               onChange={ this.handleChange }
               data-testid="input-gravatar-email"
             />

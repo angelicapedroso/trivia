@@ -7,12 +7,25 @@ export const tokenPlayerAPI = (token) => ({
   payload: token,
 });
 
+export const REQUEST_QUESTIONS = 'REQUEST_QUESTIONS';
+export const requestQuestions = (questions) => ({
+  type: REQUEST_QUESTIONS,
+  questions,
+});
+
+export const fetchQuestions = (token) => (dispatch) => {
+  fetch(`https://opentdb.com/api.php?amount=5&token=${token}`)
+    .then((response) => response.json())
+    .then((question) => dispatch(requestQuestions(question)));
+};
+
 export const getTokenPlayer = () => async (dispatch) => {
   const response = await fetchTokenAPI();
   const data = await response;
   const { token } = data;
   dispatch(tokenPlayerAPI(token));
   localStorage.setItem('token', token);
+  dispatch(fetchQuestions(token));
 };
 
 export const ADD_USER = 'ADD_USER';

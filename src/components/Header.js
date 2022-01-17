@@ -7,7 +7,7 @@ class Header extends React.Component {
   constructor() {
     super();
     this.state = {
-      hash: '',
+      ranking: [''],
     };
   }
 
@@ -16,23 +16,35 @@ class Header extends React.Component {
   }
 
   getHash = () => {
-    const { email } = this.props;
+    const { name, score, email } = this.props;
     const hash = md5(email).toString();
-    this.setState({ hash });
+    const saveRanking = [{ name, score, picture: `https://www.gravatar.com/avatar/${hash}` }];
+    if (name) localStorage.setItem('ranking', JSON.stringify(saveRanking));
+    const ranking = JSON.parse(localStorage.getItem('ranking'));
+    this.setState({ ranking });
   }
 
   render() {
-    const { props: { name }, state: { hash } } = this;
+    const { ranking } = this.state;
     return (
-      <div>
+      <header>
         <img
+          id="userIMG"
           data-testid="header-profile-picture"
-          src={ `https://www.gravatar.com/avatar/${hash}` }
+          src={ ranking[0].picture }
           alt="foto-de-perfil"
         />
-        <p data-testid="header-player-name">{ name }</p>
-        <p data-testid="header-score">0</p>
-      </div>
+        <div>
+          <p data-testid="header-player-name">
+            Bem vindo:
+            { ranking[0].name }
+          </p>
+          <p data-testid="header-score">
+            Score:
+            { ranking[0].score }
+          </p>
+        </div>
+      </header>
     );
   }
 }
@@ -40,11 +52,13 @@ class Header extends React.Component {
 Header.propTypes = {
   email: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  score: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  email: state.player.email,
-  name: state.player.userName,
+  email: state.player.gravatarEmail,
+  name: state.player.name,
+  score: state.player.score,
 });
 
 export default connect(mapStateToProps)(Header);

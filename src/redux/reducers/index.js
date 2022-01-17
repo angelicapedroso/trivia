@@ -1,21 +1,12 @@
 import { combineReducers } from 'redux';
 import token from './tokenPlayer';
-import { ADD_USER } from '../actions/index';
+import player from './player';
+import questions from './questions';
 
-const INITIAL_STATE = {
-  player: '',
-};
-const player = (state = INITIAL_STATE, action) => {
-  switch (action.type) {
-  case ADD_USER:
-    return action.user;
-  default:
-    return state;
-  }
-};
 const rootReducer = combineReducers({
   token,
   player,
+  questions,
 });
 
 export default rootReducer;
