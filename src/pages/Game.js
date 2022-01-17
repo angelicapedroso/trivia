@@ -46,7 +46,9 @@ class Game extends React.Component {
             handleClick={ this.onClick }
           />
         )}
-        {visible && <NextButton handleClick={ this.handleClick } />}
+        <div id="next">
+          {visible && <NextButton handleClickNext={ this.handleClick } />}
+        </div>
       </div>
     );
   }
