@@ -10,6 +10,17 @@ class Question extends React.Component {
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
+  handleClick = () => {
+    const buttons = document.querySelectorAll('.optionButton');
+    for (let i = 0; i < buttons.length; i += 1) {
+      if (buttons[i].name === 'btnCorrect') {
+        buttons[i].style.setProperty('border', '3px solid rgb(6, 240, 15)');
+      } else {
+        buttons[i].style.setProperty('border', '3px solid rgb(255, 0, 0)');
+      }
+    }
+  }
+
   render() {
     const {
       question,
@@ -29,6 +40,9 @@ class Question extends React.Component {
             style={ { order: this.getRandomInt(0, max) } }
             type="button"
             data-testid="correct-answer"
+            onClick={ this.handleClick }
+            name="btnCorrect"
+            className="optionButton"
           >
             { correctAnswer }
           </button>
@@ -38,6 +52,9 @@ class Question extends React.Component {
               style={ { order: this.getRandomInt(0, max) } }
               type="button"
               data-testid={ `wrong-answer-${index}` }
+              onClick={ this.handleClick }
+              name="btnWrong"
+              className="optionButton"
             >
               { wrong }
             </button>
