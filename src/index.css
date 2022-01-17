@@ -63,7 +63,7 @@ header #userIMG {
 #next {
   display: flex;
   justify-content: center;
-  padding: 5px;
+  padding: 4px;
   padding-left: 10px;
   padding-right: 10px;
 }
