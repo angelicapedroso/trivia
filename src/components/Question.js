@@ -27,6 +27,7 @@ class Question extends React.Component {
       category,
       correctAnswer,
       wrongs,
+      handleClick,
     } = this.props;
     const max = 5;
     return (
@@ -39,6 +40,7 @@ class Question extends React.Component {
           <button
             style={ { order: this.getRandomInt(0, max) } }
             type="button"
+            onClick={ handleClick }
             data-testid="correct-answer"
             onClick={ this.handleClick }
             name="btnCorrect"
@@ -51,6 +53,7 @@ class Question extends React.Component {
               key={ wrong }
               style={ { order: this.getRandomInt(0, max) } }
               type="button"
+              onClick={ handleClick }
               data-testid={ `wrong-answer-${index}` }
               onClick={ this.handleClick }
               name="btnWrong"
@@ -70,6 +73,7 @@ Question.propTypes = {
   category: PropTypes.string.isRequired,
   correctAnswer: PropTypes.string.isRequired,
   wrongs: PropTypes.string.isRequired,
+  handleClick: PropTypes.func.isRequired,
 };
 
 export default Question;

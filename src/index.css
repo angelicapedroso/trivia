@@ -58,5 +58,12 @@ header #userIMG {
   display: flex;
   justify-content: center;
   margin: 50px;
+}
 
+#next {
+  display: flex;
+  justify-content: center;
+  padding: 4px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
