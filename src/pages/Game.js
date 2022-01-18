@@ -36,19 +36,36 @@ class Game extends React.Component {
     }
   }
 
-  onClick = ({target}) => {
+  onClick = ({ target }) => {
+    const { name } = target;
+    const { getQuestions } = this.props;
+    const hard = 3;
     changeColor();
     this.setState({ visible: true });
-    console.log(target);
+    const questionText = target.parentNode.parentNode.firstChild.lastChild.innerText;
+    const difficult = getQuestions.find((e) => e.question === questionText).difficulty;
+    if (name === 'btnCorrect') {
+      switch (difficult) {
+      case 'easy':
+        this.scoreAdd(1, 1);
+        break;
+      case 'medium':
+        this.scoreAdd(1, 2);
+        break;
+      case 'hard':
+        this.scoreAdd(1, hard);
+        break;
+      default:
+        return 0;
+      }
+    }
   }
 
-  scoreAdd = (timer, level) => {
-    const { getSum } = this.props;
+  scoreAdd = (timer = 1, difficult = 0) => {
     const ten = 10;
-    const difficult = { hard: 3, medium: 2, easy: 1 };
-    const sumScore = (timer * difficult[level]) + ten;
-    localStorage.setItem('sum', sumScore);
-    getSum(sumScore);
+    const ranking = JSON.parse(localStorage.getItem('ranking'));
+    ranking[0].score = ranking[0].score + ten + (timer * difficult);
+    localStorage.setItem('ranking', JSON.stringify(ranking));
   }
 
   render() {
@@ -78,7 +95,6 @@ class Game extends React.Component {
 Game.propTypes = {
   questions: PropTypes.func.isRequired,
   getQuestions: PropTypes.func.isRequired,
-  getSum: PropTypes.func.isRequired,
   history: PropTypes.string.isRequired,
 };
 
