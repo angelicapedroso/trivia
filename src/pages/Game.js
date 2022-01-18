@@ -4,8 +4,8 @@ import { PropTypes } from 'prop-types';
 import Header from '../components/Header';
 import Question from '../components/Question';
 import NextButton from '../components/NextButton';
+import { fetchQuestions, sum } from '../redux/actions';
 import changeColor from '../services/changeColor';
-import { fetchQuestions } from '../redux/actions';
 import getRandomInt from '../services/getRandomInt';
 
 class Game extends React.Component {
@@ -36,9 +36,36 @@ class Game extends React.Component {
     }
   }
 
-  onClick = () => {
+  onClick = ({ target }) => {
+    const { name } = target;
+    const { getQuestions } = this.props;
+    const hard = 3;
     changeColor();
     this.setState({ visible: true });
+    const questionText = target.parentNode.parentNode.firstChild.lastChild.innerText;
+    const difficult = getQuestions.find((e) => e.question === questionText).difficulty;
+    if (name === 'btnCorrect') {
+      switch (difficult) {
+      case 'easy':
+        this.scoreAdd(1, 1);
+        break;
+      case 'medium':
+        this.scoreAdd(1, 2);
+        break;
+      case 'hard':
+        this.scoreAdd(1, hard);
+        break;
+      default:
+        return 0;
+      }
+    }
+  }
+
+  scoreAdd = (timer = 1, difficult = 0) => {
+    const ten = 10;
+    const ranking = JSON.parse(localStorage.getItem('ranking'));
+    ranking[0].score = ranking[0].score + ten + (timer * difficult);
+    localStorage.setItem('ranking', JSON.stringify(ranking));
   }
 
   render() {
@@ -78,6 +105,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   questions: (token) => dispatch(fetchQuestions(token)),
+  dispatchSoma: (score) => dispatch(sum(score)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
