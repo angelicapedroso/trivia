@@ -4,13 +4,9 @@ import { PropTypes } from 'prop-types';
 import Header from '../components/Header';
 import Question from '../components/Question';
 import NextButton from '../components/NextButton';
-<<<<<<< HEAD
 import { fetchQuestions, sum } from '../redux/actions';
-=======
 import changeColor from '../services/changeColor';
-import { fetchQuestions } from '../redux/actions';
 import getRandomInt from '../services/getRandomInt';
->>>>>>> d4d661dc10f000becdc4695f8bb53b52b291f3f2
 
 class Game extends React.Component {
   constructor() {
@@ -40,9 +36,10 @@ class Game extends React.Component {
     }
   }
 
-  onClick = () => {
+  onClick = ({target}) => {
     changeColor();
     this.setState({ visible: true });
+    console.log(target);
   }
 
   scoreAdd = (timer, level) => {
@@ -81,11 +78,8 @@ class Game extends React.Component {
 Game.propTypes = {
   questions: PropTypes.func.isRequired,
   getQuestions: PropTypes.func.isRequired,
-<<<<<<< HEAD
   getSum: PropTypes.func.isRequired,
-=======
   history: PropTypes.string.isRequired,
->>>>>>> d4d661dc10f000becdc4695f8bb53b52b291f3f2
 };
 
 const mapStateToProps = (state) => ({
