@@ -2,7 +2,37 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 
 class Question extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      time: 30,
+    };
+  }
+
+  componentDidMount() {
+    const seconds = 1000;
+    this.interval = setInterval(
+      () => this.setTimer(),
+      seconds,
+    );
+  }
+
+  componentDidUpdate = () => {
+    const { time } = this.state;
+    const ZERO = 0;
+    if (time === ZERO) {
+      clearInterval(this.interval);
+    }
+  };
+
+  setTimer = () => {
+    this.setState((prevState) => ({
+      time: prevState.time - 1,
+    }));
+  }
+
   render() {
+    const { time } = this.state;
     const {
       question,
       category,
@@ -25,10 +55,11 @@ class Question extends React.Component {
             data-testid="correct-answer"
             name="btnCorrect"
             className="optionButton"
+            disabled={ time === 0 && 'true' }
           >
             { correctAnswer }
           </button>
-          {wrongs.map((wrong, index) => (
+          { wrongs.map((wrong, index) => (
             <button
               key={ wrong }
               style={ { order: randomOrder[index + 1] } }
@@ -37,11 +68,13 @@ class Question extends React.Component {
               data-testid={ `wrong-answer-${randomOrder[index + 1]}` }
               name="btnWrong"
               className="optionButton"
+              disabled={ time === 0 && 'true' }
             >
               { wrong }
             </button>
-          ))}
+          )) }
         </div>
+        <div>{ time }</div>
       </div>
     );
   }
