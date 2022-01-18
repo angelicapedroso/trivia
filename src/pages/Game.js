@@ -4,7 +4,9 @@ import { PropTypes } from 'prop-types';
 import Header from '../components/Header';
 import Question from '../components/Question';
 import NextButton from '../components/NextButton';
+import changeColor from '../services/changeColor';
 import { fetchQuestions } from '../redux/actions';
+import getRandomInt from '../services/getRandomInt';
 
 class Game extends React.Component {
   constructor() {
@@ -12,6 +14,7 @@ class Game extends React.Component {
     this.state = {
       index: 0,
       visible: false,
+      order: getRandomInt(),
     };
   }
 
@@ -24,15 +27,17 @@ class Game extends React.Component {
   handleClick = () => {
     const { index } = this.state;
     const max = 4;
-    if (index < max) this.setState({ index: index + 1, visible: false });
+    const array = getRandomInt();
+    if (index < max) this.setState({ index: index + 1, visible: false, order: array });
   }
 
   onClick = () => {
+    changeColor();
     this.setState({ visible: true });
   }
 
   render() {
-    const { props: { getQuestions }, state: { index, visible } } = this;
+    const { props: { getQuestions }, state: { index, visible, order } } = this;
     return (
       <div>
         <Header />
@@ -44,6 +49,7 @@ class Game extends React.Component {
             correctAnswer={ getQuestions[index].correct_answer }
             wrongs={ getQuestions[index].incorrect_answers }
             handleClick={ this.onClick }
+            randomOrder={ order }
           />
         )}
         <div id="next">
