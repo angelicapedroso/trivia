@@ -28,7 +28,12 @@ class Game extends React.Component {
     const { index } = this.state;
     const max = 4;
     const array = getRandomInt();
-    if (index < max) this.setState({ index: index + 1, visible: false, order: array });
+    if (index < max) {
+      this.setState({ index: index + 1, visible: false, order: array });
+    } else {
+      const { history } = this.props;
+      history.push('/feedback');
+    }
   }
 
   onClick = () => {
@@ -63,6 +68,7 @@ class Game extends React.Component {
 Game.propTypes = {
   questions: PropTypes.func.isRequired,
   getQuestions: PropTypes.func.isRequired,
+  history: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
