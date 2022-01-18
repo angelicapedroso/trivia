@@ -30,3 +30,9 @@ export const getTokenPlayer = () => async (dispatch) => {
 
 export const ADD_USER = 'ADD_USER';
 export const addUser = (user) => ({ type: ADD_USER, user });
+
+export const SAVE_SCORE = 'SAVE_SCORE';
+export const sum = (score) => ({
+  type: SAVE_SCORE,
+  score,
+});

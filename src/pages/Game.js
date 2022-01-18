@@ -4,7 +4,7 @@ import { PropTypes } from 'prop-types';
 import Header from '../components/Header';
 import Question from '../components/Question';
 import NextButton from '../components/NextButton';
-import { fetchQuestions } from '../redux/actions';
+import { fetchQuestions, sum } from '../redux/actions';
 
 class Game extends React.Component {
   constructor() {
@@ -29,6 +29,15 @@ class Game extends React.Component {
 
   onClick = () => {
     this.setState({ visible: true });
+  }
+
+  scoreAdd = (timer, level) => {
+    const { getSum } = this.props;
+    const ten = 10;
+    const difficult = { hard: 3, medium: 2, easy: 1 };
+    const sumScore = (timer * difficult[level]) + ten;
+    localStorage.setItem('sum', sumScore);
+    getSum(sumScore);
   }
 
   render() {
@@ -57,6 +66,7 @@ class Game extends React.Component {
 Game.propTypes = {
   questions: PropTypes.func.isRequired,
   getQuestions: PropTypes.func.isRequired,
+  getSum: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -66,6 +76,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   questions: (token) => dispatch(fetchQuestions(token)),
+  dispatchSoma: (score) => dispatch(sum(score)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
