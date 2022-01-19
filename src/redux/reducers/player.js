@@ -17,9 +17,8 @@ const player = (state = INITIAL_STATE, action) => {
   case 'ADD_POINT':
     return {
       ...state,
-      name: action.score.name,
       score: action.score.score,
-      gravatarEmail: action.score.picture,
+      assertions: action.score.assertions,
     };
   default:
     return state;

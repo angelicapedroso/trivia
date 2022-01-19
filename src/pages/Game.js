@@ -20,7 +20,11 @@ class Game extends React.Component {
   }
 
   componentDidMount() {
-    const { questions } = this.props;
+    const { questions, setRanking } = this.props;
+    let { score, assertions } = this.props;
+    score = 0;
+    assertions = 0;
+    setRanking({ score, assertions });
     const token = localStorage.getItem('token');
     questions(token);
     const seconds = 1000;
@@ -89,13 +93,12 @@ class Game extends React.Component {
   }
 
   scoreAdd = (timer = 1, difficult = 0) => {
+    let { score, assertions } = this.props;
     const { setRanking } = this.props;
     const ten = 10;
-    const ranking = JSON.parse(localStorage.getItem('ranking'));
-    const i = ranking.length - 1;
-    ranking[i].score = ranking[i].score + ten + (timer * difficult);
-    setRanking(ranking[i]);
-    localStorage.setItem('ranking', JSON.stringify(ranking));
+    assertions += 1;
+    score = score + ten + (timer * difficult);
+    setRanking({ score, assertions });
   }
 
   render() {
@@ -128,10 +131,14 @@ Game.propTypes = {
   questions: PropTypes.func.isRequired,
   getQuestions: PropTypes.func.isRequired,
   setRanking: PropTypes.func.isRequired,
+  score: PropTypes.func.isRequired,
   history: PropTypes.string.isRequired,
+  assertions: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  score: state.player.score,
+  assertions: state.player.assertions,
   getQuestions: state.questions,
   token: state.token,
 });
