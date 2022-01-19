@@ -31,10 +31,15 @@ class Feedback extends React.Component {
   }
 
   render() {
+    const { assertions } = this.props;
+    const MIN = 3;
     return (
       <div>
         <Header />
-        <span data-testid="feedback-text">Feedback</span>
+        <h2 data-testid="feedback-text">Feedback</h2>
+        <h4 data-testid="feedback-text">
+          { assertions < MIN ? 'Could be better...' : 'Well Done!' }
+        </h4>
         <button
           type="button"
           name="play"
@@ -60,6 +65,7 @@ Feedback.propTypes = {
   email: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   score: PropTypes.string.isRequired,
+  assertions: PropTypes.string.isRequired,
   history: PropTypes.string.isRequired,
 };
 
@@ -67,6 +73,7 @@ const mapStateToProps = (state) => ({
   email: state.player.gravatarEmail,
   name: state.player.name,
   score: state.player.score,
+  assertions: state.player.assertions,
 });
 
 export default connect(mapStateToProps)(Feedback);
