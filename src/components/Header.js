@@ -18,30 +18,35 @@ class Header extends React.Component {
   getHash = () => {
     const { name, score, email } = this.props;
     const hash = md5(email).toString();
-    const saveRanking = [{ name, score, picture: `https://www.gravatar.com/avatar/${hash}` }];
-    if (name) localStorage.setItem('ranking', JSON.stringify(saveRanking));
+    const saveRanking = { name, score, picture: `https://www.gravatar.com/avatar/${hash}` };
     const ranking = JSON.parse(localStorage.getItem('ranking'));
-    this.setState({ ranking });
+    if (ranking && name) {
+      ranking.push(saveRanking);
+      localStorage.setItem('ranking', JSON.stringify(ranking));
+    } else if (!ranking) localStorage.setItem('ranking', JSON.stringify([saveRanking]));
+    const updatedRanking = JSON.parse(localStorage.getItem('ranking'));
+    this.setState({ ranking: updatedRanking[updatedRanking.length - 1] });
   }
 
   render() {
     const { ranking } = this.state;
+    const { score } = this.props;
     return (
       <header>
         <img
           id="userIMG"
           data-testid="header-profile-picture"
-          src={ ranking[0].picture }
+          src={ ranking.picture }
           alt="foto-de-perfil"
         />
         <div>
           <p data-testid="header-player-name">
             Bem vindo:
-            { ranking[0].name }
+            { ranking.name }
           </p>
           <p data-testid="header-score">
             Score:
-            { ranking[0].score }
+            { score }
           </p>
         </div>
       </header>

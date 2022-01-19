@@ -2,37 +2,7 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 
 class Question extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      time: 30,
-    };
-  }
-
-  componentDidMount() {
-    const seconds = 1000;
-    this.interval = setInterval(
-      () => this.setTimer(),
-      seconds,
-    );
-  }
-
-  componentDidUpdate = () => {
-    const { time } = this.state;
-    const ZERO = 0;
-    if (time === ZERO) {
-      clearInterval(this.interval);
-    }
-  };
-
-  setTimer = () => {
-    this.setState((prevState) => ({
-      time: prevState.time - 1,
-    }));
-  }
-
   render() {
-    const { time } = this.state;
     const {
       question,
       category,
@@ -40,6 +10,7 @@ class Question extends React.Component {
       wrongs,
       handleClick,
       randomOrder,
+      isDisabled,
     } = this.props;
     return (
       <div id="game">
@@ -53,9 +24,10 @@ class Question extends React.Component {
             type="button"
             onClick={ handleClick }
             data-testid="correct-answer"
+            id="btnCorrect"
             name="btnCorrect"
             className="optionButton"
-            disabled={ time === 0 && 'true' }
+            disabled={ isDisabled }
           >
             { correctAnswer }
           </button>
@@ -68,13 +40,12 @@ class Question extends React.Component {
               data-testid={ `wrong-answer-${randomOrder[index + 1]}` }
               name="btnWrong"
               className="optionButton"
-              disabled={ time === 0 && 'true' }
+              disabled={ isDisabled }
             >
               { wrong }
             </button>
           )) }
         </div>
-        <div>{ time }</div>
       </div>
     );
   }
@@ -83,6 +54,7 @@ class Question extends React.Component {
 Question.propTypes = {
   question: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
+  isDisabled: PropTypes.string.isRequired,
   correctAnswer: PropTypes.string.isRequired,
   wrongs: PropTypes.string.isRequired,
   randomOrder: PropTypes.string.isRequired,
