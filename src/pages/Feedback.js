@@ -31,7 +31,7 @@ class Feedback extends React.Component {
   }
 
   render() {
-    const { assertions } = this.props;
+    const { assertions, score } = this.props;
     const MIN = 3;
     return (
       <div>
@@ -40,6 +40,17 @@ class Feedback extends React.Component {
         <h4 data-testid="feedback-text">
           { assertions < MIN ? 'Could be better...' : 'Well Done!' }
         </h4>
+        <table>
+          <tr>Desempenho:</tr>
+          <tr>
+            <p>Acertos</p>
+            <td data-testid="feedback-total-question">{ assertions }</td>
+          </tr>
+          <tr>
+            <p>Pontuação</p>
+            <td data-testid="feedback-total-score">{ score }</td>
+          </tr>
+        </table>
         <button
           type="button"
           name="play"
