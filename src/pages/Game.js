@@ -20,13 +20,13 @@ class Game extends React.Component {
   }
 
   componentDidMount() {
-    const { questions, setRanking } = this.props;
+    const { setRanking, questions } = this.props;
     let { score, assertions } = this.props;
     score = 0;
     assertions = 0;
-    setRanking({ score, assertions });
     const token = localStorage.getItem('token');
-    questions(token);
+    if (token) questions(token);
+    setRanking({ score, assertions });
     const seconds = 1000;
     this.interval = setInterval(
       () => this.setTimer(),
@@ -67,14 +67,13 @@ class Game extends React.Component {
 
   onClick = ({ target }) => {
     const { name } = target;
-    const { getQuestions } = this.props;
-    const { time } = this.state;
+    const { props: { getQuestions }, state: { time } } = this;
     const hard = 3;
+    const questionText = target.parentNode.parentNode.firstChild.lastChild.innerText;
+    const difficult = getQuestions.find((e) => e.question === questionText).difficulty;
     clearInterval(this.interval);
     changeColor();
     this.setState({ visible: true });
-    const questionText = target.parentNode.parentNode.firstChild.lastChild.innerText;
-    const difficult = getQuestions.find((e) => e.question === questionText).difficulty;
     if (name === 'btnCorrect') {
       switch (difficult) {
       case 'easy':
@@ -103,10 +102,20 @@ class Game extends React.Component {
 
   render() {
     const { props: { getQuestions }, state: { index, visible, order, time } } = this;
+    const MIN = 20;
     return (
       <div>
         <Header />
-        {getQuestions && (
+        <th
+          id="timer"
+          style={ time < MIN
+            ? { color: 'rgb(255, 0, 0)' }
+            : { color: 'green' } }
+        >
+          Tempo restante:
+          <i>{ time }</i>
+        </th>
+        {getQuestions.length > 1 && (
           <Question
             key={ getQuestions[index].question }
             question={ getQuestions[index].question }
@@ -118,7 +127,6 @@ class Game extends React.Component {
             isDisabled={ time === 0 && 'true' }
           />
         )}
-        <div>{ time }</div>
         <div id="next">
           {(visible || time === 0) && <NextButton handleClickNext={ this.handleClick } />}
         </div>
