@@ -36,37 +36,46 @@ class Feedback extends React.Component {
     return (
       <div>
         <Header />
-        <h2 data-testid="feedback-text">Feedback</h2>
-        <h4 data-testid="feedback-text">
-          { assertions < MIN ? 'Could be better...' : 'Well Done!' }
-        </h4>
-        <table>
-          <tr>Desempenho:</tr>
-          <tr>
-            <p>Acertos</p>
-            <td data-testid="feedback-total-question">{ assertions }</td>
-          </tr>
-          <tr>
-            <p>Pontuação</p>
-            <td data-testid="feedback-total-score">{ score }</td>
-          </tr>
-        </table>
-        <button
-          type="button"
-          name="play"
-          onClick={ this.handleClick }
-          data-testid="btn-play-again"
-        >
-          Jogue Novamente
-        </button>
-        <button
-          type="button"
-          name="ranking"
-          onClick={ this.handleClick }
-          data-testid="btn-ranking"
-        >
-          Ranking
-        </button>
+        <div id="feedback">
+          <h2 data-testid="feedback-text">Feedback</h2>
+          {assertions < MIN
+            ? (
+              <h4 style={ { color: 'red' } } data-testid="feedback-text">
+                Could be better...
+              </h4>)
+            : (
+              <h4 style={ { color: 'green' } } data-testid="feedback-text">
+                Well Done!
+              </h4>
+            )}
+          <table>
+            <tr>Desempenho:</tr>
+            <tr>
+              <p>Acertos</p>
+              <td data-testid="feedback-total-question">{ assertions }</td>
+            </tr>
+            <tr>
+              <p>Pontuação</p>
+              <td data-testid="feedback-total-score">{ score }</td>
+            </tr>
+          </table>
+          <button
+            type="button"
+            name="play"
+            onClick={ this.handleClick }
+            data-testid="btn-play-again"
+          >
+            Jogue Novamente
+          </button>
+          <button
+            type="button"
+            name="ranking"
+            onClick={ this.handleClick }
+            data-testid="btn-ranking"
+          >
+            Ranking
+          </button>
+        </div>
       </div>
     );
   }

@@ -24,8 +24,10 @@ export const getTokenPlayer = () => async (dispatch) => {
   const data = await response;
   const { token } = data;
   dispatch(tokenPlayerAPI(token));
-  localStorage.setItem('token', token);
-  dispatch(fetchQuestions(token));
+  const localToken = localStorage.setItem('token', token);
+  if (!localToken) {
+    dispatch(fetchQuestions(token));
+  }
 };
 
 export const ADD_USER = 'ADD_USER';

@@ -7,7 +7,7 @@ class NextButton extends React.Component {
     return (
       <button
         type="button"
-        id="next"
+        id="next-btn"
         data-testid="btn-next"
         onClick={ handleClickNext }
       >
