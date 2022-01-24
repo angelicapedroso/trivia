@@ -22,8 +22,8 @@ class Ranking extends Component {
           Jogue Novamente
         </button>
         <section>
-          {
-            playersInfo.map((player, index) => (
+          {playersInfo
+            ? playersInfo.map((player, index) => (
               <Players
                 key={ index }
                 src={ player.picture }
@@ -31,8 +31,7 @@ class Ranking extends Component {
                 name={ player.name }
                 score={ player.score }
               />
-            ))
-          }
+            )) : null}
         </section>
       </div>
     );

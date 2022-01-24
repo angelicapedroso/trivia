@@ -5,9 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* imagem comiada do endereço
-  https://steamcdn-a.akamaihd.net/steamcommunity/public/images/items/804010/bcdc8103401c44f035d126340da1cf2ccf0a03bd.jpg */
-  background-image: url('background-image.jpg');
+  background-image: url(Design\ sem\ nome\ \(1\).jpg);
   background-size: cover;
 }
 
@@ -28,7 +26,7 @@ code {
 
 header {
   display: flex;
-  background-color: rgb(27, 27, 151);
+  background-color: #1f2735;
   color: whitesmoke;
   height: 70px;
 }
@@ -85,7 +83,7 @@ header #userIMG, table img {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  box-shadow: 2px 4px rgb(27, 27, 151);
+  box-shadow: 2px 4px black;
   width: 500px;
   text-align: center;
   margin-top: 50px;
@@ -121,7 +119,7 @@ header #userIMG, table img {
   flex-direction: column;
   width: 300px;
   margin-left: 35%;
-  border: solid rgb(27, 27, 151);
+  border: solid black;
   padding: 10px;
   margin-top: 10px;
 }

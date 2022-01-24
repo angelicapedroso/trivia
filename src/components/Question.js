@@ -15,7 +15,7 @@ class Question extends React.Component {
     return (
       <div id="game">
         <div id="question-category">
-          <p id="category" data-testid="question-category">{ category }</p>
+          <h3 id="category" data-testid="question-category">{ category }</h3>
           <p id="question" data-testid="question-text">{ question }</p>
         </div>
         <div id="options" data-testid="answer-options">
